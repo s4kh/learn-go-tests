@@ -1,14 +1,10 @@
 package pointers
 
-import "testing"
+import (
+	"testing"
 
-func assertStrings(t testing.TB, got, want string) {
-	t.Helper()
-
-	if got != want {
-		t.Errorf("got %q want %q give, %q", got, want, "testing2")
-	}
-}
+	"github.com/s4kh/learn-go-tests/util"
+)
 
 func TestSearch(t *testing.T) {
 
@@ -22,7 +18,7 @@ func TestSearch(t *testing.T) {
 			t.Errorf("expecting no error")
 		}
 
-		assertStrings(t, got, want)
+		util.AssertString(t, got, want)
 	})
 
 	t.Run("non existing key", func(t *testing.T) {
@@ -30,8 +26,8 @@ func TestSearch(t *testing.T) {
 
 		got, err := dict.Search("test2")
 
-		assertStrings(t, got, "")
-		assertStrings(t, err.Error(), ErrNonExistingKey.Error())
+		util.AssertString(t, got, "")
+		util.AssertError(t, err, ErrNonExistingKey)
 	})
 }
 
@@ -48,14 +44,14 @@ func TestAdd(t *testing.T) {
 			t.Fatal("should find the value:", err)
 		}
 
-		assertStrings(t, got, want)
+		util.AssertString(t, got, want)
 	})
 
 	t.Run("existing key", func(t *testing.T) {
 		dictionary := Dictionary{"test4": "val4"}
 		err := dictionary.Add("test4", "val4")
 
-		assertError(t, err, ErrKeyExists)
+		util.AssertError(t, err, ErrKeyExists)
 	})
 
 }
@@ -67,5 +63,5 @@ func TestDelete(t *testing.T) {
 
 	_, err := dictionary.Search("test5")
 
-	assertError(t, err, ErrNonExistingKey)
+	util.AssertError(t, err, ErrNonExistingKey)
 }

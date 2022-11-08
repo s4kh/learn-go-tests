@@ -3,6 +3,8 @@ package dependencyinjection
 import (
 	"bytes"
 	"testing"
+
+	"github.com/s4kh/learn-go-tests/util"
 )
 
 func TestGreet(t *testing.T) {
@@ -12,7 +14,5 @@ func TestGreet(t *testing.T) {
 	got := buffer.String()
 	want := "Hello, Chris"
 
-	if got != want {
-		t.Errorf("got %q want %q", got, want)
-	}
+	util.AssertString(t, got, want)
 }

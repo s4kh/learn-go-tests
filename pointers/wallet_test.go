@@ -1,6 +1,10 @@
 package pointers
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/s4kh/learn-go-tests/util"
+)
 
 func assertBalance(t testing.TB, w Wallet, want Eth) {
 	t.Helper()
@@ -8,18 +12,6 @@ func assertBalance(t testing.TB, w Wallet, want Eth) {
 
 	if got != want {
 		t.Errorf("got %s want %s", got, want)
-	}
-}
-
-func assertError(t testing.TB, got, want error) {
-	t.Helper()
-
-	if got == nil {
-		t.Error("wanted an error but didn't get one")
-	}
-
-	if got != want {
-		t.Errorf("got %q want %q", got, want)
 	}
 }
 
@@ -52,7 +44,7 @@ func TestWall(t *testing.T) {
 		err := wallet.Withdraw(Eth(31))
 
 		assertBalance(t, wallet, startinBalance)
-		assertError(t, err, ErrInsufficientFunds)
+		util.AssertError(t, err, ErrInsufficientFunds)
 	})
 
 }
