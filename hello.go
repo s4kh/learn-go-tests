@@ -16,15 +16,18 @@ func Hello(name string) string {
 	return englishHelloPrefix + name
 }
 
-type DefaultSleeper struct{}
+type ConfigurableSleeper struct {
+	duration time.Duration
+	sleep    func(time.Duration)
+}
 
-func (ds *DefaultSleeper) Sleep() {
-	time.Sleep(1 * time.Second)
+func (c *ConfigurableSleeper) Sleep() {
+	c.sleep(c.duration)
 }
 
 func main() {
 	// Power of using interface
-	ds := &DefaultSleeper{}
-	mocking.Countdown(os.Stdout, ds)
+	sleeper := &ConfigurableSleeper{1 * time.Second, time.Sleep}
+	mocking.Countdown(os.Stdout, sleeper)
 	// fmt.Println(Hello("test"))
 }
